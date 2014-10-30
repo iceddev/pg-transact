@@ -1,6 +1,8 @@
 pg-transaction
 ==============
 
+[![Build Status](https://travis-ci.org/iceddev/pg-transaction.svg?branch=master)](https://travis-ci.org/iceddev/pg-transaction)
+
 A nicer API on node-postgres transactions
 
 ## Usage
