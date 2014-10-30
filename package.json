@@ -1,0 +1,32 @@
+{
+  "name": "pg-transaction",
+  "version": "1.0.0",
+  "description": "A nicer API on node-postgres transactions",
+  "main": "index.js",
+  "scripts": {
+    "test": "lab -cv"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iceddev/pg-transaction"
+  },
+  "keywords": [
+    "pg",
+    "postgres",
+    "transactions",
+    "tx"
+  ],
+  "author": "Blaine Bublitz <blaine@iceddev.com> (http://iceddev.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/iceddev/pg-transaction/issues"
+  },
+  "homepage": "https://github.com/iceddev/pg-transaction",
+  "dependencies": {
+    "when": "^3.5.2"
+  },
+  "devDependencies": {
+    "code": "^1.2.0",
+    "lab": "^5.0.1"
+  }
+}
