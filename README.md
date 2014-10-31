@@ -1,7 +1,7 @@
-pg-transaction
-==============
+pg-transact
+===========
 
-[![Build Status](https://travis-ci.org/iceddev/pg-transaction.svg?branch=master)](https://travis-ci.org/iceddev/pg-transaction)
+[![Build Status](https://travis-ci.org/iceddev/pg-transact.svg?branch=master)](https://travis-ci.org/iceddev/pg-transact)
 
 A nicer API on node-postgres transactions
 
@@ -9,6 +9,7 @@ A nicer API on node-postgres transactions
 
 ```js
 var pg = require('pg.js');
+var pgTransact = require('pg-transact');
 
 function transaction(client, cb){
   // everything in here is run as a transaction
@@ -28,7 +29,7 @@ pg.connect(connectionString, function(err, client, done){
     throw err;
   }
 
-  pgTransaction(client, transaction, done)
+  pgTransact(client, transaction, done)
     .then(console.log, console.error);
 });
 ```
@@ -37,6 +38,7 @@ It also will work with a returned promise:
 
 ```js
 var pg = require('pg.js');
+var pgTransact = require('pg-transact');
 
 function transaction(client, cb){
   return new Promise(function(resolve, reject){
@@ -55,7 +57,7 @@ pg.connect(connectionString, function(err, client, done){
     throw err;
   }
 
-  pgTransaction(client, transaction, done)
+  pgTransact(client, transaction, done)
     .then(console.log, console.error);
 });
 ```
