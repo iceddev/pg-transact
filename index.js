@@ -9,9 +9,13 @@ var rollback = require('./lib/rollback');
 
 function pgTransaction(client, transaction, done){
 
-  function release(err){
-    // on successful rollback, release the client and rethrow the error that caused the rollback
+  function release(){
     done();
+  }
+
+  function releaseAndRethrow(err){
+    // on successful rollback, release the client and rethrow the error that caused the rollback
+    release();
     throw err;
   }
 
@@ -34,12 +38,12 @@ function pgTransaction(client, transaction, done){
       return defer.promise;
     })
     .then(function(result){
-      // on successful transaction, commit and yield the original result
-      return commit(client).yield(result);
+      // on successful transaction, commit, release and yield the original result
+      return commit(client).then(release).yield(result);
     })
     .catch(function(err){
       // on failed transaction, rollback the transaction
-      return rollback(client).yield(err).then(release, destroy);
+      return rollback(client).yield(err).then(releaseAndRethrow, destroy);
     });
 }
 

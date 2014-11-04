@@ -9,6 +9,7 @@ var after = lab.after;
 var afterEach = lab.afterEach;
 
 var expect = require('code').expect;
+var sinon = require('sinon');
 
 var when = require('when');
 
@@ -24,7 +25,7 @@ describe('pg-transaction', function(){
       query: function(sql, done){ done(); }
     };
 
-    cleanup = function(){};
+    cleanup = sinon.spy();
     done();
   });
 
@@ -36,6 +37,7 @@ describe('pg-transaction', function(){
     }
 
     function success(){
+      expect(cleanup.called).to.be.true();
       done();
     }
 
@@ -43,7 +45,7 @@ describe('pg-transaction', function(){
       done(err);
     }
 
-    pgTransaction(client, transaction, cleanup).then(success, fail);
+    pgTransaction(client, transaction, cleanup).done(success, fail);
   });
 
   it('will wait for a returned promise to resolve instead of using the callback', function(done){
@@ -55,6 +57,7 @@ describe('pg-transaction', function(){
 
     function success(result){
       expect(result).to.equal(expected);
+      expect(cleanup.called).to.be.true();
       done();
     }
 
@@ -62,7 +65,7 @@ describe('pg-transaction', function(){
       done(err);
     }
 
-    pgTransaction(client, transaction, cleanup).then(success, fail);
+    pgTransaction(client, transaction, cleanup).done(success, fail);
   });
 
   it('will fail when an error is passed to callback', function(done){
@@ -77,10 +80,11 @@ describe('pg-transaction', function(){
 
     function fail(err){
       expect(err).to.equal(expected);
+      expect(cleanup.called).to.be.true();
       done();
     }
 
-    pgTransaction(client, transaction, cleanup).catch(fail);
+    pgTransaction(client, transaction, cleanup).catch(fail).done();
   });
 
   it('will fail when a returned promise is rejected', function(done){
@@ -92,10 +96,11 @@ describe('pg-transaction', function(){
 
     function fail(err){
       expect(err).to.equal(expected);
+      expect(cleanup.called).to.be.true();
       done();
     }
 
-    pgTransaction(client, transaction, cleanup).catch(fail);
+    pgTransaction(client, transaction, cleanup).catch(fail).done();
   });
 
   it('will fail when an error occurs in BEGIN query', function(done){
@@ -115,10 +120,11 @@ describe('pg-transaction', function(){
 
     function fail(err){
       expect(err).to.equal(expected);
+      expect(cleanup.called).to.be.true();
       done();
     }
 
-    pgTransaction(client, transaction, cleanup).catch(fail);
+    pgTransaction(client, transaction, cleanup).catch(fail).done();
   });
 
   it('will fail when an error occurs in COMMIT query', function(done){
@@ -138,10 +144,11 @@ describe('pg-transaction', function(){
 
     function fail(err){
       expect(err).to.equal(expected);
+      expect(cleanup.called).to.be.true();
       done();
     }
 
-    pgTransaction(client, transaction, cleanup).catch(fail);
+    pgTransaction(client, transaction, cleanup).catch(fail).done();
   });
 
   it('will fail when an error occurs in ROLLBACK query', function(done){
@@ -165,9 +172,10 @@ describe('pg-transaction', function(){
 
     function fail(err){
       expect(err).to.equal(expected);
+      expect(cleanup.called).to.be.true();
       done();
     }
 
-    pgTransaction(client, transaction, cleanup).catch(fail);
+    pgTransaction(client, transaction, cleanup).catch(fail).done();
   });
 });
