@@ -40,7 +40,7 @@ It also will work with a returned promise:
 var pg = require('pg.js');
 var pgTransact = require('pg-transact');
 
-function transaction(client, cb){
+function transaction(client){
   return new Promise(function(resolve, reject){
     client.query('SELECT NOW() as when', function(err, result){
       if(err){
